@@ -10,15 +10,21 @@ namespace DelegateBankAccountExample
     {
         static void Main(string[] args)
         {
-            Account NikolajsAccount = new Account();
+            Account NikolajsAccount = new Account(); // no alarms attached
 
-            NikolajsAccount.AccountDeposit = NikolajsAccount.DepositNoAlerts;
             Console.WriteLine(NikolajsAccount.AccountDeposit(20000));
-            Console.WriteLine("saldo: " + NikolajsAccount.Saldo);
+            Console.WriteLine("saldo: " + NikolajsAccount.Balance);
 
-            NikolajsAccount.AccountDeposit = NikolajsAccount.DepositMoneyLaundryAlert;
+            Console.WriteLine(NikolajsAccount.ActivateMoneyLoundryAlert());
+            
             Console.WriteLine(NikolajsAccount.AccountDeposit(20000));
-            Console.WriteLine("saldo: " + NikolajsAccount.Saldo);
+            Console.WriteLine("saldo: " + NikolajsAccount.Balance);
+
+            Console.WriteLine(NikolajsAccount.DeactivateMoneyLoundryAlert());
+            Console.WriteLine(NikolajsAccount.AccountDeposit(20000));
+            Console.WriteLine("saldo: " + NikolajsAccount.Balance);
+
+
 
 
 

@@ -8,7 +8,7 @@ namespace DelegateBankAccountExample
 {
     class Account
     {
-        private int _saldo;
+        private int _balance;
 
         public delegate int Deposit(int deposit);
 
@@ -18,15 +18,42 @@ namespace DelegateBankAccountExample
 
         public Withdrawal AccountWithdrawal;
 
+        public Account()
+        {
+            AccountDeposit = DepositNoAlerts;
+            AccountWithdrawal = WithdrawalStandard;
+        }
+
+        public bool ActivateMoneyLoundryAlert()
+        {
+            if (AccountDeposit != DepositMoneyLaundryAlert)
+            {
+                AccountDeposit = DepositMoneyLaundryAlert;
+                return true;
+            }
+            else return false;
+        }
+
+        public bool DeactivateMoneyLoundryAlert()
+        {
+            if (AccountDeposit == DepositMoneyLaundryAlert)
+            {
+                AccountDeposit = DepositNoAlerts;
+                return true;
+            }
+            return false;
+        }
+
+
         // varianter til brug i mine delegates:
-        public int DepositNoAlerts(int deposit)
+        private int DepositNoAlerts(int deposit)
         {
             Console.WriteLine("Deposit: " + deposit);
-            _saldo += deposit;
+            _balance += deposit;
             return deposit;
         }
 
-        public int DepositMoneyLaundryAlert(int deposit)
+        private int DepositMoneyLaundryAlert(int deposit)
         {
             Console.WriteLine("Deposit: " + deposit);
             if (deposit >= 10000)
@@ -35,14 +62,45 @@ namespace DelegateBankAccountExample
                 Console.WriteLine("!!! MONEY LAUNDRY ALERT !!!");
                 Console.ForegroundColor = ConsoleColor.White;
             }
-            _saldo += deposit;
+            _balance += deposit;
             return deposit;
         }
 
-
-        public int Saldo
+        private int WithdrawalStandard(int withdrawal)
         {
-            get { return _saldo; }
+            _balance -= withdrawal;
+            return withdrawal;
+        }
+
+        private int WithdrawalMax1000(int withdrawal)
+        {
+            if (withdrawal > 1000)
+            {
+                return 0;
+            }
+            else
+            {
+                _balance -= withdrawal;
+                return withdrawal;
+            }
+        }
+
+        private int WithdrawalDebit(int withdrawal)
+        {
+            if (_balance - withdrawal < 0)
+            {
+                return 0;
+            }
+            else
+            {
+                _balance -= withdrawal;
+                return withdrawal;
+            }
+        }
+
+        public int Balance
+        {
+            get { return _balance; }
         }
     }
 }
