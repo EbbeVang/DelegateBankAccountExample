@@ -10,25 +10,23 @@ namespace DelegateBankAccountExample
     {
         private int _balance;
 
-        public delegate int Deposit(int deposit);
+        public delegate int Transaction(int amount);
 
-        public delegate int Withdrawal(int withdrawal);
+        public Transaction Deposit;
 
-        public Deposit AccountDeposit;
-
-        public Withdrawal AccountWithdrawal;
+        public Transaction Withdrawal;
 
         public Account()
         {
-            AccountDeposit = DepositNoAlerts;
-            AccountWithdrawal = WithdrawalStandard;
+            Deposit = DepositNoAlerts;
+            Withdrawal = WithdrawalStandard;
         }
 
         public bool ActivateMoneyLoundryAlert()
         {
-            if (AccountDeposit != DepositMoneyLaundryAlert)
+            if (Deposit != DepositMoneyLaundryAlert)
             {
-                AccountDeposit = DepositMoneyLaundryAlert;
+                Deposit = DepositMoneyLaundryAlert;
                 return true;
             }
             else return false;
@@ -36,9 +34,9 @@ namespace DelegateBankAccountExample
 
         public bool DeactivateMoneyLoundryAlert()
         {
-            if (AccountDeposit == DepositMoneyLaundryAlert)
+            if (Deposit == DepositMoneyLaundryAlert)
             {
-                AccountDeposit = DepositNoAlerts;
+                Deposit = DepositNoAlerts;
                 return true;
             }
             return false;
